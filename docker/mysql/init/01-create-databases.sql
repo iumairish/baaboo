@@ -1,4 +1,5 @@
 -- Create all department databases
+CREATE DATABASE IF NOT EXISTS main_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS technical_issues_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS account_billing_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS product_service_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

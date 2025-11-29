@@ -17,6 +17,11 @@ services:
       - baaboo_network
     depends_on:
       - mysql_main
+      - mysql_technical
+      - mysql_billing
+      - mysql_product
+      - mysql_inquiry
+      - mysql_feedback
     environment:
       - APP_ENV=${APP_ENV}
       - APP_DEBUG=${APP_DEBUG}
@@ -50,7 +55,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: 'dev_root_pass'
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
     volumes:
@@ -60,7 +65,86 @@ services:
       - "3306:3306"
     networks:
       - baaboo_network
-    command: --default-authentication-plugin=mysql_native_password
+
+  mysql_technical:
+    image: mysql:8.0
+    container_name: baaboo_mysql_technical
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_TECHNICAL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_technical_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - baaboo_network
+
+  mysql_billing:
+    image: mysql:8.0
+    container_name: baaboo_mysql_billing
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_BILLING_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_billing_data:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    networks:
+      - baaboo_network
+
+  mysql_product:
+    image: mysql:8.0
+    container_name: baaboo_mysql_product
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_PRODUCT_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_product_data:/var/lib/mysql
+    ports:
+      - "3309:3306"
+    networks:
+      - baaboo_network
+
+  mysql_inquiry:
+    image: mysql:8.0
+    container_name: baaboo_mysql_inquiry
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_INQUIRY_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_inquiry_data:/var/lib/mysql
+    ports:
+      - "3310:3306"
+    networks:
+      - baaboo_network
+
+  mysql_feedback:
+    image: mysql:8.0
+    container_name: baaboo_mysql_feedback
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_FEEDBACK_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_feedback_data:/var/lib/mysql
+    ports:
+      - "3311:3306"
+    networks:
+      - baaboo_network
 
 networks:
   baaboo_network:
@@ -69,5 +153,13 @@ networks:
 volumes:
   mysql_main_data:
     driver: local
-  redis_data:
+  mysql_technical_data:
+    driver: local
+  mysql_billing_data:
+    driver: local
+  mysql_product_data:
+    driver: local
+  mysql_inquiry_data:
+    driver: local
+  mysql_feedback_data:
     driver: local

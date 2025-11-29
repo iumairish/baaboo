@@ -1,0 +1,114 @@
+.admin-layout {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.main-content {
+    padding: 30px 0;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background: white;
+    border-bottom: 2px solid #f0f0f0;
+    font-weight: 600;
+    padding: 20px;
+}
+
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+/* Ticket Details Page */
+.ticket-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 10px 10px 0 0;
+}
+
+.ticket-info-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ticket-info-row:last-child {
+    border-bottom: none;
+}
+
+.note-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Trix Editor Styling */
+trix-editor {
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-md);
+    padding: 12px;
+}
+
+trix-editor:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* DataTables Custom Styling */
+.dataTables_wrapper .dataTables_filter input {
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-md);
+    padding: 6px 12px;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-md);
+    padding: 6px 12px;
+}
+
+table.dataTable thead th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive Admin */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px 0;
+    }
+    
+    .card-header {
+        padding: 15px;
+    }
+    
+    .ticket-header {
+        padding: 20px;
+    }
+}
