@@ -1,0 +1,73 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: baaboo_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - baaboo_network
+    depends_on:
+      - mysql_main
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_DEBUG=${APP_DEBUG}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  # Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: baaboo_server
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/ssl/:/etc/nginx/ssl/
+    networks:
+      - baaboo_network
+    depends_on:
+      - app
+
+  # Main Database
+  mysql_main:
+    image: mysql:8.0
+    container_name: baaboo_mysql_main
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: 'dev_root_pass'
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - mysql_main_data:/var/lib/mysql
+      - ./docker/mysql/init/:/docker-entrypoint-initdb.d/
+    ports:
+      - "3306:3306"
+    networks:
+      - baaboo_network
+    command: --default-authentication-plugin=mysql_native_password
+
+networks:
+  baaboo_network:
+    driver: bridge
+
+volumes:
+  mysql_main_data:
+    driver: local
+  redis_data:
+    driver: local
