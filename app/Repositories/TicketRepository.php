@@ -93,8 +93,8 @@ class TicketRepository implements TicketRepositoryInterface
 
     /**
      * Update a ticket in a specific database.
-     *
-     * @param  array<string, mixed>  $data
+     * 
+     * @param array<string, mixed> $data
      */
     public function update(int $id, string $connection, array $data): bool
     {

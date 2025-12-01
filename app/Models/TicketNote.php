@@ -42,6 +42,8 @@ class TicketNote extends Model
 
     /**
      * Get the ticket that owns the note.
+     *
+     * @return BelongsTo<\App\Models\Ticket, self>
      */
     public function ticket(): BelongsTo
     {

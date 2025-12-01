@@ -16,8 +16,7 @@ use Illuminate\View\View;
 class TicketController extends Controller
 {
     public function __construct(
-        private readonly TicketService $ticketService,
-        private readonly DBConnectService $databaseService
+        private readonly TicketService $ticketService
     ) {}
 
     /**

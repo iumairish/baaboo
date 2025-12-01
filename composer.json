@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "larastan/larastan": "^2.11",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
@@ -47,7 +48,8 @@
             "@php artisan key:generate --ansi"
         ],
         "check-cs": "pint --test",
-        "fix-cs": "pint"
+        "fix-cs": "pint",
+        "check-stan": "./vendor/bin/phpstan analyse"
     },
     "extra": {
         "laravel": {

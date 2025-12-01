@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TicketStatus;
 use App\Enums\TicketType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -64,6 +65,8 @@ class Ticket extends Model
 
     /**
      * Get the ticket notes.
+     * 
+     * @return HasMany<\App\Models\TicketNote>
      */
     public function notes(): HasMany
     {
@@ -72,16 +75,24 @@ class Ticket extends Model
 
     /**
      * Scope a query to filter by status.
+     * 
+     * @param Builder<Ticket> $query
+     * @param TicketStatus $status
+     * @return Builder<Ticket>
      */
-    public function scopeStatus($query, TicketStatus $status)
+    public function scopeStatus(Builder $query, TicketStatus $status): Builder
     {
         return $query->where('status', $status->value);
     }
 
     /**
      * Scope a query to get recent tickets.
+     * 
+     * @param Builder<Ticket> $query
+     * @param int $days
+     * @return Builder<Ticket>
      */
-    public function scopeRecent($query, int $days = 30)
+    public function scopeRecent(Builder $query, int $days = 30): Builder
     {
         return $query->where('created_at', '>=', now()->subDays($days));
     }
