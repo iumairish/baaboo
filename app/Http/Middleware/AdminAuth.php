@@ -19,7 +19,7 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth('admin')->check()) {
+        if (! auth('admin')->check()) {
             return redirect()
                 ->route('admin.login')
                 ->with('error', 'Please login to access the admin panel.');

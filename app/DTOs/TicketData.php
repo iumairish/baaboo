@@ -24,7 +24,7 @@ readonly class TicketData
     /**
      * Create DTO from request data.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromRequest(array $data): self
     {
@@ -34,8 +34,8 @@ readonly class TicketData
             subject: $data['subject'],
             description: $data['description'],
             type: TicketType::from($data['type']),
-            status: isset($data['status']) 
-                ? TicketStatus::from($data['status']) 
+            status: isset($data['status'])
+                ? TicketStatus::from($data['status'])
                 : TicketStatus::OPEN,
             id: $data['id'] ?? null,
         );

@@ -19,7 +19,7 @@ class DBConnectService
     public function getConnectionForType(string|TicketType $type): string
     {
         $ticketType = is_string($type) ? TicketType::from($type) : $type;
-        
+
         return $ticketType->getDatabaseConnection();
     }
 
@@ -31,7 +31,7 @@ class DBConnectService
     public function getAllConnections(): array
     {
         return array_map(
-            fn(TicketType $type) => $type->getDatabaseConnection(),
+            fn (TicketType $type) => $type->getDatabaseConnection(),
             TicketType::cases()
         );
     }
@@ -44,7 +44,7 @@ class DBConnectService
     public function verifyConnections(): array
     {
         $results = [];
-        
+
         foreach ($this->getAllConnections() as $connection) {
             try {
                 \DB::connection($connection)->getPdo();
@@ -52,11 +52,11 @@ class DBConnectService
             } catch (\Exception $e) {
                 $results[$connection] = false;
                 \Log::error("Database connection failed: {$connection}", [
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
-        
+
         return $results;
     }
 }

@@ -35,7 +35,7 @@ class TicketSubmissionController extends Controller
     {
         try {
             $ticketData = TicketData::fromRequest($request->validated());
-            
+
             $ticket = $this->ticketService->createTicket($ticketData);
 
             return redirect()

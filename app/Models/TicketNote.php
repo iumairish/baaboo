@@ -54,6 +54,7 @@ class TicketNote extends Model
     public function setConnection($name): static
     {
         $this->connection = $name;
+
         return $this;
     }
 }

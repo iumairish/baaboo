@@ -35,6 +35,7 @@ enum TicketType: string
         foreach (self::cases() as $case) {
             $types[$case->value] = $case->value;
         }
+
         return $types;
     }
 

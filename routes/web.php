@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AuthController::class, 'showLogin'])
             ->name('login');
-        
+
         Route::post('/login', [AuthController::class, 'login'])
             ->name('login.submit');
     });
@@ -49,10 +49,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('tickets')->name('tickets.')->group(function () {
             Route::get('/', [TicketController::class, 'index'])
                 ->name('index');
-            
+
             Route::get('/{id}', [TicketController::class, 'show'])
                 ->name('show');
-            
+
             Route::post('/{id}/note', [TicketController::class, 'addNote'])
                 ->name('add-note');
         });

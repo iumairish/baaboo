@@ -45,7 +45,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "check-cs": "pint --test",
+        "fix-cs": "pint"
     },
     "extra": {
         "laravel": {

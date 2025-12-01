@@ -47,7 +47,7 @@ class TicketService
             return $ticket;
         } catch (\Exception $e) {
             DB::connection($connection)->rollBack();
-            
+
             Log::error('Failed to create ticket', [
                 'error' => $e->getMessage(),
                 'type' => $ticketData->type->value,
@@ -104,9 +104,9 @@ class TicketService
             DB::connection($connection)->beginTransaction();
 
             $ticket = $this->findTicket($ticketId, $connection);
-            
-            if (!$ticket) {
-                throw new \Exception("Ticket not found");
+
+            if (! $ticket) {
+                throw new \Exception('Ticket not found');
             }
 
             // Create note
@@ -130,7 +130,7 @@ class TicketService
             return true;
         } catch (\Exception $e) {
             DB::connection($connection)->rollBack();
-            
+
             Log::error('Failed to add note to ticket', [
                 'ticket_id' => $ticketId,
                 'error' => $e->getMessage(),
@@ -166,7 +166,7 @@ class TicketService
                 ->setConnection($connection)
                 ->recent($days)
                 ->get();
-            
+
             $tickets = $tickets->merge($recentTickets);
         }
 

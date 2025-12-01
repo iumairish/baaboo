@@ -39,14 +39,14 @@ class TicketController extends Controller
     {
         $connection = $request->query('connection');
 
-        if (!$connection) {
+        if (! $connection) {
             // Try to find the ticket across all databases
             $ticket = $this->ticketService->findTicketAcrossAllDatabases($id);
         } else {
             $ticket = $this->ticketService->findTicket($id, $connection);
         }
 
-        if (!$ticket) {
+        if (! $ticket) {
             return redirect()
                 ->route('admin.tickets.index')
                 ->with('error', 'Ticket not found.');

@@ -54,7 +54,7 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-        
+
         'technical_department' => [
             'driver' => 'mysql',
             'host' => env('DB_TECHNICAL_HOST', env('DB_HOST', '127.0.0.1')),
@@ -102,7 +102,7 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-        
+
         'general_department' => [
             'driver' => 'mysql',
             'host' => env('DB_INQUIRY_HOST', env('DB_HOST', '127.0.0.1')),

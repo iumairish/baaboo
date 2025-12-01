@@ -15,9 +15,9 @@ class TicketSeeder extends Seeder
     {
         foreach (TicketType::cases() as $type) {
             $connection = $type->getDatabaseConnection();
-            
+
             $this->command->info("Creating tickets in {$connection}...");
-            
+
             // Create 10 tickets of each type in the CORRECT database
             for ($i = 0; $i < 10; $i++) {
                 $ticket = Ticket::factory()
@@ -25,7 +25,7 @@ class TicketSeeder extends Seeder
                     ->make([
                         'type' => $type->value,
                     ]);
-                
+
                 // CRITICAL: Set connection BEFORE saving
                 $ticket->setConnection($connection);
                 $ticket->save();

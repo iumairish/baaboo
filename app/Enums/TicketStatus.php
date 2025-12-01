@@ -49,6 +49,7 @@ enum TicketStatus: string
         foreach (self::cases() as $case) {
             $statuses[$case->value] = $case->label();
         }
+
         return $statuses;
     }
 }

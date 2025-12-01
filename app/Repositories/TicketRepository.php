@@ -25,7 +25,7 @@ class TicketRepository implements TicketRepositoryInterface
     public function create(TicketData $ticketData): Ticket
     {
         $connection = $ticketData->getDatabaseConnection();
-        
+
         $ticket = new Ticket();
         $ticket->setConnection($connection);
         $ticket->fill($ticketData->toArray());
@@ -70,7 +70,7 @@ class TicketRepository implements TicketRepositoryInterface
                 $allTickets = $allTickets->merge($tickets);
             } catch (\Exception $e) {
                 \Log::error("Failed to fetch tickets from {$connection}", [
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
@@ -94,13 +94,13 @@ class TicketRepository implements TicketRepositoryInterface
     /**
      * Update a ticket in a specific database.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(int $id, string $connection, array $data): bool
     {
         $ticket = $this->find($id, $connection);
-        
-        if (!$ticket) {
+
+        if (! $ticket) {
             return false;
         }
 
@@ -113,8 +113,8 @@ class TicketRepository implements TicketRepositoryInterface
     public function delete(int $id, string $connection): bool
     {
         $ticket = $this->find($id, $connection);
-        
-        if (!$ticket) {
+
+        if (! $ticket) {
             return false;
         }
 
