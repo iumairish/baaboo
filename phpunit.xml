@@ -23,10 +23,37 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="testing_main_db"/>
+        <env name="DB_DATABASE" value="main_db"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        
+        <!-- Database Configuration for Tests (Local Environment) -->
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_USERNAME" value="dev_user"/>
+        <env name="DB_PASSWORD" value="dev_pass"/>
+        
+        <!-- Department Database Names for Testing -->
+        <env name="DB_TECHNICAL_DATABASE" value="technical_issues_db"/>
+        <env name="DB_TECHNICAL_HOST" value="127.0.0.1"/>
+        <env name="DB_TECHNICAL_PORT" value="3307"/>
+        
+        <env name="DB_BILLING_DATABASE" value="account_billing_db"/>
+        <env name="DB_BILLING_HOST" value="127.0.0.1"/>
+        <env name="DB_BILLING_PORT" value="3308"/>
+        
+        <env name="DB_PRODUCT_DATABASE" value="product_service_db"/>
+        <env name="DB_PRODUCT_HOST" value="127.0.0.1"/>
+        <env name="DB_PRODUCT_PORT" value="3309"/>
+        
+        <env name="DB_INQUIRY_DATABASE" value="general_inquiry_db"/>
+        <env name="DB_INQUIRY_HOST" value="127.0.0.1"/>
+        <env name="DB_INQUIRY_PORT" value="3310"/>
+        
+        <env name="DB_FEEDBACK_DATABASE" value="feedback_suggestions_db"/>
+        <env name="DB_FEEDBACK_HOST" value="127.0.0.1"/>
+        <env name="DB_FEEDBACK_PORT" value="3311"/>
     </php>
 </phpunit>

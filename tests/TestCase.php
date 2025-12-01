@@ -16,6 +16,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         
+        // Disable CSRF for tests
+        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        
         // Clean test data before each test
         $this->cleanupTestData();
     }
@@ -46,7 +49,7 @@ abstract class TestCase extends BaseTestCase
 
         foreach ($connections as $connection) {
             try {
-                // Delete test tickets (keep production/dev data if any)
+                // Delete test tickets (created in last hour)
                 DB::connection($connection)
                     ->table('ticket_notes')
                     ->where('created_at', '>=', now()->subHour())
