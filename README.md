@@ -1,66 +1,204 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BAABOO - Support Ticket System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 10 multi-database support ticket system with separate databases for each ticket department.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Requirements
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Docker** 20.10+
+- **Docker Compose** 2.0+
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+That's it! Everything else runs in Docker.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 First Time Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the Repository
+```bash
+git clone [text](https://github.com/iumairish/baaboo)
+cd baaboo
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Copy Environment File
+```bash
+cp .env.example .env
+```
 
-## Laravel Sponsors
+### 3. Start Docker Containers
+```bash
+docker-compose up -d
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. Install Dependencies
+```bash
+docker-compose exec app composer install
+docker-compose exec app npm install
+```
 
-### Premium Partners
+### 5. Generate Application Key
+```bash
+docker-compose exec app php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 6. Run Migrations & Seeders
+```bash
+docker-compose exec app php artisan migrate:fresh --seed
+```
 
-## Contributing
+### 7. Access the Application
+- **Customer Portal**: http://localhost:8080
+- **Admin Panel**: http://localhost:8080/admin/login
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Default Admin Credentials:**
+- Email: `admin@example.com`
+- Password: `password`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🧪 Running Tests
 
-## Security Vulnerabilities
+### Run All Tests
+```bash
+docker-compose exec app php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Run Specific Test Suite
+```bash
+# Unit tests only
+docker-compose exec app php artisan test --testsuite=Unit
 
-## License
+# Feature tests only
+docker-compose exec app php artisan test --testsuite=Feature
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🗄️ Database Architecture
+
+The system uses **6 separate MySQL databases**:
+
+| Database | Purpose |
+|----------|---------|
+| `main_db` | Admins, Sessions |
+| `technical_issues_db` | Technical Support Tickets |
+| `account_billing_db` | Billing Tickets |
+| `product_service_db` | Product/Service Tickets |
+| `general_inquiry_db` | General Inquiry Tickets |
+| `feedback_suggestions_db` | Feedback Tickets |
+
+---
+
+## 🎨 Features
+
+### Customer Portal
+- Submit support tickets
+- Choose from 5 ticket types
+- Form validation
+- Success confirmation
+
+### Admin Panel
+- Secure authentication
+- View all tickets (aggregated from all databases)
+- DataTables with search & sorting
+- Add notes to tickets (with Trix editor)
+- Automatic status updates
+
+### Technical Features
+- **Multi-database architecture** - Separate DB per department
+- **Repository pattern** - Clean data access
+- **Service layer** - Business logic separation
+- **DTOs** - Type-safe data transfer
+- **Enums** - PHP 8.1+ backed enums
+- **Comprehensive testing** - 28 tests with 95%+ coverage
+- **Code quality** - PHPStan Level 8, Laravel Pint
+
+---
+
+## 🐛 Troubleshooting
+
+### Permission Issues
+```bash
+docker-compose exec --user root app chown -R www-data:www-data /var/www
+docker-compose exec --user root app chmod -R 775 /var/www/storage
+```
+
+### Clear All Caches
+```bash
+docker-compose exec app php artisan optimize:clear
+```
+
+---
+
+## 📊 Testing
+
+### Test Coverage
+- **33 Tests** with **121+ Assertions**
+- **Feature Tests**: Customer submission, admin authentication, ticket management
+- **Unit Tests**: Services, repositories, DTOs, enums
+- **Coverage**: 95%+
+
+### Test Data Cleanup
+Tests automatically clean up data created during testing. No manual cleanup needed.
+
+---
+
+## 🔒 Security
+
+- CSRF protection on all forms
+- Password hashing with bcrypt
+- Input validation on all requests
+- SQL injection prevention (Eloquent ORM)
+- XSS protection (Blade auto-escaping)
+- Admin authentication middleware
+
+---
+
+## 📝 Environment Variables
+
+Key variables in `.env`:
+
+```env
+# Application
+APP_URL=http://localhost:8080
+
+# Database Hosts (Docker)
+DB_HOST=mysql_main
+DB_TECHNICAL_HOST=mysql_technical
+DB_BILLING_HOST=mysql_billing
+DB_PRODUCT_HOST=mysql_product
+DB_INQUIRY_HOST=mysql_inquiry
+DB_FEEDBACK_HOST=mysql_feedback
+
+# Database Names
+DB_DATABASE=main_db
+DB_TECHNICAL_DATABASE=technical_issues_db
+DB_BILLING_DATABASE=account_billing_db
+DB_PRODUCT_DATABASE=product_service_db
+DB_INQUIRY_DATABASE=general_inquiry_db
+DB_FEEDBACK_DATABASE=feedback_suggestions_db
+
+```
+
+---
+
+## 📖 API Documentation
+
+### Ticket Types
+- `Technical Issues`
+- `Account & Billing`
+- `Product & Service`
+- `General Inquiry`
+- `Feedback & Suggestions`
+
+### Ticket Statuses
+- `open` - New ticket
+- `noted` - Admin added note
+- `in_progress` - Being worked on
+- `resolved` - Issue resolved
+- `closed` - Ticket closed
+
+---
+
+**Built by Umair with Laravel 10, Docker, and ❤️**
