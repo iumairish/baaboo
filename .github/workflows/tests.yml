@@ -48,7 +48,7 @@ jobs:
       mysql_main:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: main_db
         ports:
           - 3306:3306
@@ -61,12 +61,12 @@ jobs:
       mysql_technical:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: technical_issues_db
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -ppassword"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -74,12 +74,12 @@ jobs:
       mysql_billing:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: account_billing_db
         ports:
           - 3308:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -ppassword"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -87,12 +87,12 @@ jobs:
       mysql_product:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: product_service_db
         ports:
           - 3309:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -ppassword"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -100,12 +100,12 @@ jobs:
       mysql_inquiry:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: general_inquiry_db
         ports:
           - 3310:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -ppassword"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -113,12 +113,12 @@ jobs:
       mysql_feedback:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: feedback_suggestions_db
         ports:
           - 3311:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -ppassword"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -163,11 +163,14 @@ jobs:
 
       - name: Configure database connections for CI
         run: |
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=main_db/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root_password/' .env
+          # Main database
+          php artisan config:clear
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=main_db" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
           
           # Technical Issues DB
           echo "DB_TECHNICAL_HOST=127.0.0.1" >> .env
@@ -198,12 +201,28 @@ jobs:
           echo "REDIS_HOST=127.0.0.1" >> .env
           echo "CACHE_STORE=redis" >> .env
 
+          # App settings
+          echo "APP_ENV=testing" >> .env
+          echo "APP_DEBUG=true" >> .env
+
       - name: Wait for MySQL services to be ready
         run: |
+          echo "Waiting for MySQL services to be ready..."
           for port in 3306 3307 3308 3309 3310 3311; do
-            echo "Waiting for MySQL on port $port..."
-            timeout 60 bash -c "until mysqladmin ping -h 127.0.0.1 -P $port -uroot -proot_password --silent; do sleep 2; done"
+            echo "Checking MySQL on port $port..."
+            for i in {1..30}; do
+              if mysqladmin ping -h"127.0.0.1" -P"$port" -u"root" -p"password" --silent 2>/dev/null; then
+                echo "✓ MySQL on port $port is ready"
+                break
+              fi
+              if [ $i -eq 30 ]; then
+                echo "✗ MySQL on port $port failed to start"
+                exit 1
+              fi
+              sleep 2
+            done
           done
+          echo "All MySQL services are ready!"
 
       - name: Run tests with coverage
         run: composer run-tests
