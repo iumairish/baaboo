@@ -223,8 +223,8 @@ jobs:
   deployment-check:
     name: Deployment Readiness
     runs-on: ubuntu-latest
-    needs: [code-quality, tests, security-check]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    needs: [code-quality, tests]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master')
     
     steps:
       - name: Checkout code
@@ -240,7 +240,7 @@ jobs:
   notify:
     name: Notify Results
     runs-on: ubuntu-latest
-    needs: [code-quality, tests, security-check]
+    needs: [code-quality, tests]
     if: always()
     
     steps:
