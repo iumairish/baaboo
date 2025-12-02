@@ -8,7 +8,7 @@ return new class() extends Migration
 {
     /**
      * Get all department database connections.
-     * 
+     *
      * @return array<string>
      */
     private function getConnections(): array

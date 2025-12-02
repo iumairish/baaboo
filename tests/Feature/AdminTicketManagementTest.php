@@ -25,7 +25,7 @@ class AdminTicketManagementTest extends TestCase
         // Create tickets in different databases with correct connections
         foreach (TicketType::cases() as $type) {
             $connection = $type->getDatabaseConnection();
-            
+
             for ($i = 0; $i < 2; $i++) {
                 $this->createTicketInDatabase($connection, [
                     'type' => $type->value,

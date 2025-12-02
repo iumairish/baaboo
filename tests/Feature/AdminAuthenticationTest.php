@@ -54,7 +54,7 @@ class AdminAuthenticationTest extends TestCase
         $admin = Admin::factory()->create([
             'email' => 'testadmin3@test.com',
         ]);
-        
+
         $this->actingAs($admin, 'admin');
 
         $response = $this->post(route('admin.logout'));

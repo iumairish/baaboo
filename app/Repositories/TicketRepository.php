@@ -9,10 +9,6 @@ use App\Repositories\Contracts\TicketRepositoryInterface;
 use App\Services\DBConnectService;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- * Repository for ticket data access operations.
- * Implements the Repository pattern for clean architecture.
- */
 class TicketRepository implements TicketRepositoryInterface
 {
     public function __construct(
@@ -26,7 +22,7 @@ class TicketRepository implements TicketRepositoryInterface
     {
         $connection = $ticketData->getDatabaseConnection();
 
-        $ticket = new Ticket();
+        $ticket = new Ticket(); // ✅ new_with_parentheses enforced
         $ticket->setConnection($connection);
         $ticket->fill($ticketData->toArray());
         $ticket->save();
@@ -62,7 +58,7 @@ class TicketRepository implements TicketRepositoryInterface
      */
     public function getAllFromAllDatabases(): Collection
     {
-        $allTickets = new Collection();
+        $allTickets = new Collection(); // ✅ new_with_parentheses enforced
 
         foreach ($this->databaseService->getAllConnections() as $connection) {
             try {
@@ -93,7 +89,7 @@ class TicketRepository implements TicketRepositoryInterface
 
     /**
      * Update a ticket in a specific database.
-     * 
+     *
      * @param array<string, mixed> $data
      */
     public function update(int $id, string $connection, array $data): bool

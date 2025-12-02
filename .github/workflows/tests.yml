@@ -208,11 +208,11 @@ jobs:
       - name: Run migrations on all databases
         run: |
           php artisan migrate --database=mysql --force
-          php artisan migrate --database=technical_issues --force
-          php artisan migrate --database=account_billing --force
-          php artisan migrate --database=product_service --force
-          php artisan migrate --database=general_inquiry --force
-          php artisan migrate --database=feedback_suggestions --force
+          php artisan migrate --database=technical_department --force
+          php artisan migrate --database=account_department --force
+          php artisan migrate --database=product_department --force
+          php artisan migrate --database=general_department --force
+          php artisan migrate --database=feedback_department --force
 
       - name: Seed database
         run: php artisan db:seed --force

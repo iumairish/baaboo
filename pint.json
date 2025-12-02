@@ -75,6 +75,7 @@
         "ordered_imports": {
             "sort_algorithm": "alpha"
         },
+        "phpdoc_align": false,
         "phpdoc_indent": true,
         "phpdoc_inline_tag_normalizer": true,
         "phpdoc_no_access": true,
@@ -118,6 +119,7 @@
         "vendor",
         "storage",
         "bootstrap/cache",
-        "node_modules"
+        "node_modules",
+        "tests"
     ]
 }

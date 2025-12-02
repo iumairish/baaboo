@@ -117,7 +117,7 @@ class TicketService
             $note->save();
 
             // Update ticket status
-            $ticket->status = TicketStatus::NOTED;
+            $ticket->status = TicketStatus::NOTED->value;
             $ticket->save();
 
             DB::connection($connection)->commit();

@@ -39,7 +39,7 @@ class TicketSubmissionTest extends TestCase
             ->where('name', 'John Doe')
             ->where('email', 'john@gmail.com')
             ->first();
-        
+
         $this->assertNotNull($ticket, 'Ticket should exist in database');
         $this->assertEquals('John Doe', $ticket->name);
         $this->assertEquals('john@gmail.com', $ticket->email);

@@ -42,7 +42,7 @@ interface TicketRepositoryInterface
 
     /**
      * Update a ticket.
-     * 
+     *
      * @param array<string, mixed> $data
      */
     public function update(int $id, string $connection, array $data): bool;
