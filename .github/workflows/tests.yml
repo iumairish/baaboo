@@ -205,18 +205,6 @@ jobs:
             timeout 60 bash -c "until mysqladmin ping -h 127.0.0.1 -P $port -uroot -proot_password --silent; do sleep 2; done"
           done
 
-      - name: Run migrations on all databases
-        run: |
-          php artisan migrate --database=mysql --force
-          php artisan migrate --database=technical_department --force
-          php artisan migrate --database=account_department --force
-          php artisan migrate --database=product_department --force
-          php artisan migrate --database=general_department --force
-          php artisan migrate --database=feedback_department --force
-
-      - name: Seed database
-        run: php artisan db:seed --force
-
       - name: Run tests with coverage
         run: composer run-tests
 
