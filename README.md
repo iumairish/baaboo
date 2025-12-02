@@ -1,6 +1,6 @@
 # BAABOO - Support Ticket System
 
-A Laravel 10 multi-database support ticket system with separate databases for each ticket department.
+A Laravel 10 multi-database support ticket system with separate databases for each ticket department on docker.
 
 ---
 
